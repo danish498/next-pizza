@@ -1,4 +1,4 @@
-'use client';
+
 
 import Header from '@/features/navbar/Header';
 import GlobalStyles from '@/lib/GlobalStyles';
