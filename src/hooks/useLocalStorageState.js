@@ -1,3 +1,5 @@
+'use client'
+
 import React, { useEffect, useLayoutEffect, useState } from 'react';
 
 const useLocalStorageState = (key, initialValue) => {
