@@ -1,19 +1,19 @@
 'use client';
 
 import useLocalStorageState from './useLocalStorageState';
-
 const { useState, useEffect, useLayoutEffect } = require('react');
 
 const useThemeToggle = () => {
+  // Check if it's running on the client side
+  const isClient = typeof window !== 'undefined';
+
   const [isDarkMode, setIsDarkMode] = useLocalStorageState(
     'isDarkMode',
-    window.matchMedia('(prefers-color-scheme: dark)').matches
+    isClient ? window.matchMedia('(prefers-color-scheme: dark)').matches : false
   );
-  console.log('################################', isDarkMode);
 
   useLayoutEffect(
     function () {
-      console.log('$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$', isDarkMode);
       if (isDarkMode) {
         document.documentElement.classList.add('dark-mode');
         document.documentElement.classList.remove('light-mode');
@@ -24,8 +24,6 @@ const useThemeToggle = () => {
     },
     [isDarkMode]
   );
-
-  console.log('IS DARK MODE OVER HERE', isDarkMode);
 
   function toggleDarkMode() {
     setIsDarkMode((isDark) => !isDark);

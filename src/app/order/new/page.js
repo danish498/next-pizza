@@ -1,27 +1,27 @@
-'use client';
+"use client";
 
-import { getTotalCartPrice } from '@/features/cart/CartSlice';
-import { EmptyCart } from '@/features/cart/EmptyCart';
-import { fetchAddres } from '@/features/user/userSlice';
-import { devices } from '@/lib/CommonStyles';
-import Button from '@/ui/Button';
-import { Input } from '@/ui/Input';
-import Row from '@/ui/Row';
-import { Text } from '@/ui/Text';
-import { formatCurrency } from '@/utils/helper';
-import React, { useState } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
-import { styled } from 'styled-components';
+import { getTotalCartPrice } from "@/features/cart/CartSlice";
+import { EmptyCart } from "@/features/cart/EmptyCart";
+import { fetchAddres } from "@/features/user/userSlice";
+import { devices } from "@/lib/CommonStyles";
+import Button from "@/ui/Button";
+import { Input } from "@/ui/Input";
+import Row from "@/ui/Row";
+import { Text } from "@/ui/Text";
+import { formatCurrency } from "@/utils/helper";
+import React, { useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { styled } from "styled-components";
 
 const OrderDetails = () => {
   const dispatch = useDispatch();
-  const [phoneNumber, setPhoneNumber] = useState('');
+  const [phoneNumber, setPhoneNumber] = useState("");
   const [withPriority, setWithPriority] = useState(false);
   const { address } = useSelector((state) => state.user);
   const { cart } = useSelector((state) => state.cartItem);
   const totalPrice = useSelector(getTotalCartPrice);
-  const [error, setError] = useState('');
-  const {username} = useSelector((state)=> state.user)
+  const [error, setError] = useState("");
+  const { username } = useSelector((state) => state.user);
 
   const priorityPrice = withPriority ? totalPrice * 0.2 : 0;
   const finalPrice = totalPrice + priorityPrice;
@@ -30,7 +30,7 @@ const OrderDetails = () => {
 
   function loadScript(src) {
     return new Promise((resolve) => {
-      const script = document.createElement('script');
+      const script = document.createElement("script");
       script.src = src;
       script.onload = () => {
         resolve(true);
@@ -45,27 +45,27 @@ const OrderDetails = () => {
   const displayRazorpay = async () => {
     const isValidatePhone = /^\d{10}$/;
     if (!isValidatePhone.test(phoneNumber)) {
-      setError('Please enter a valid phone number ');
-      return 
+      setError("Please enter a valid phone number ");
+      return;
     } else {
-      setError('')
+      setError("");
     }
 
     const res = await loadScript(
-      'https://checkout.razorpay.com/v1/checkout.js'
+      "https://checkout.razorpay.com/v1/checkout.js"
     );
 
     if (!res) {
-      alert('Razorpay SDK failed to load. Are you online?');
+      alert("Razorpay SDK failed to load. Are you online?");
       return;
     }
 
     const options = {
-      key: 'rzp_test_2OvIDl97qzw2Y4', // Enter the Key ID generated from the Dashboard
+      key: "rzp_test_2OvIDl97qzw2Y4", // Enter the Key ID generated from the Dashboard
       amount: finalPrice * 100,
-      currency: 'INR',
-      name: 'Danish Noor.',
-      description: 'Test Transaction',
+      currency: "INR",
+      name: "Danish Noor.",
+      description: "Test Transaction",
       // image: { logo },
       // order_id: order_id,
       handler: async function (response) {
@@ -78,15 +78,15 @@ const OrderDetails = () => {
         alert(data.razorpayOrderId);
       },
       prefill: {
-        name: 'Danish Alam',
-        email: 'example@example.com',
-        contact: '9999999999',
+        name: "Danish Alam",
+        email: "example@example.com",
+        contact: "9999999999",
       },
       notes: {
-        address: 'Example Corporate Office',
+        address: "Example Corporate Office",
       },
       theme: {
-        color: '#61dafb',
+        color: "#61dafb",
       },
     };
 
@@ -98,27 +98,27 @@ const OrderDetails = () => {
     <>
       <OrderDetailsContainer>
         <InnerContainer>
-          <Row gap='2rem'>
-            <Text size='2rem' weight='500' color='var( --color-grey-900)'>
-              Ready to order? Let's go!
+          <Row gap="2rem">
+            <Text size="2rem" weight="500" color="var( --color-grey-900)">
+              Ready to order? Let&apos;s go!{" "}
             </Text>
 
             <NameContainer>
               <Text
                 style={{
-                  whiteSpace: 'nowrap',
+                  whiteSpace: "nowrap",
                 }}
               >
                 First Name
               </Text>
-              <div style={{ width: '100%' }}>
+              <div style={{ width: "100%" }}>
                 <Input
                   expanding
-                  borderRadius='9999px'
-                  height='4.5rem'
-                  pl='1.5rem'
-                  type='text'
-                  ml='auto'
+                  borderRadius="9999px"
+                  height="4.5rem"
+                  pl="1.5rem"
+                  type="text"
+                  ml="auto"
                   disabled
                   value={username}
                 />
@@ -128,18 +128,18 @@ const OrderDetails = () => {
             <NameContainer>
               <Text
                 style={{
-                  whiteSpace: 'nowrap',
+                  whiteSpace: "nowrap",
                 }}
               >
                 Phone Number
               </Text>
-              <div style={{ width: '100%' }}>
+              <div style={{ width: "100%" }}>
                 <Input
                   expanding
-                  borderRadius='9999px'
-                  height='4.5rem'
-                  pl='1.5rem'
-                  ml='auto'
+                  borderRadius="9999px"
+                  height="4.5rem"
+                  pl="1.5rem"
+                  ml="auto"
                   onChange={(e) => setPhoneNumber(e.target.value)}
                 />
                 <p>{error}</p>
@@ -149,18 +149,18 @@ const OrderDetails = () => {
             <NameContainer>
               <Text
                 style={{
-                  whiteSpace: 'nowrap',
+                  whiteSpace: "nowrap",
                 }}
               >
                 Address
               </Text>
-              <div style={{ width: '100%', position: 'relative' }}>
+              <div style={{ width: "100%", position: "relative" }}>
                 <Input
                   expanding
-                  borderRadius='9999px'
-                  height='4.5rem'
-                  pl='1.5rem'
-                  ml='auto'
+                  borderRadius="9999px"
+                  height="4.5rem"
+                  pl="1.5rem"
+                  ml="auto"
                   value={address}
                 />
                 <ButtonPosition>
@@ -171,18 +171,18 @@ const OrderDetails = () => {
               </div>
             </NameContainer>
 
-            <div style={{ display: 'flex', alignItems: 'center' }}>
+            <div style={{ display: "flex", alignItems: "center" }}>
               <CheckBoxInput
-                type='checkbox'
+                type="checkbox"
                 value={withPriority}
                 onClick={(e) => setWithPriority(e.target.checked)}
               />
-              <Text style={{ marginLeft: '2rem' }}>
+              <Text style={{ marginLeft: "2rem" }}>
                 Want to yo give your order priority?
               </Text>
             </div>
             <div>
-              <Button size='large' onClick={displayRazorpay}>
+              <Button size="large" onClick={displayRazorpay}>
                 ORDER NOW FROM {formatCurrency(finalPrice)}
               </Button>
             </div>
